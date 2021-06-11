@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MvcDbStokModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TBKATEGORILER">
+          <Key>
+            <PropertyRef Name="KATEGORIID" />
+          </Key>
+          <Property Name="KATEGORIID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KATEGORIAD" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TBMUSTERILER">
+          <Key>
+            <PropertyRef Name="MUSTERIID" />
+          </Key>
+          <Property Name="MUSTERIID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MUSTERIAD" Type="varchar" MaxLength="50" />
+          <Property Name="MUSTERISOYAD" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TBSATISLAR">
+          <Key>
+            <PropertyRef Name="SATISID" />
+          </Key>
+          <Property Name="SATISID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="URUN" Type="int" />
+          <Property Name="MUSTERI" Type="int" />
+          <Property Name="ADET" Type="tinyint" />
+          <Property Name="FIYAT" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="TBURUNLER">
+          <Key>
+            <PropertyRef Name="URUNID" />
+          </Key>
+          <Property Name="URUNID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="URUNAD" Type="varchar" MaxLength="50" />
+          <Property Name="URUNKATEGORI" Type="smallint" />
+          <Property Name="FIYAT" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MARKA" Type="varchar" MaxLength="50" />
+          <Property Name="STOK" Type="tinyint" />
+        </EntityType>
+        <Association Name="FK_TBSATISLAR_TBMUSTERILER">
+          <End Role="TBMUSTERILER" Type="Self.TBMUSTERILER" Multiplicity="0..1" />
+          <End Role="TBSATISLAR" Type="Self.TBSATISLAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBMUSTERILER">
+              <PropertyRef Name="MUSTERIID" />
+            </Principal>
+            <Dependent Role="TBSATISLAR">
+              <PropertyRef Name="MUSTERI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBSATISLAR_TBURUNLER">
+          <End Role="TBURUNLER" Type="Self.TBURUNLER" Multiplicity="0..1" />
+          <End Role="TBSATISLAR" Type="Self.TBSATISLAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBURUNLER">
+              <PropertyRef Name="URUNID" />
+            </Principal>
+            <Dependent Role="TBSATISLAR">
+              <PropertyRef Name="URUN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBURUNLER_TBKATEGORILER">
+          <End Role="TBKATEGORILER" Type="Self.TBKATEGORILER" Multiplicity="0..1" />
+          <End Role="TBURUNLER" Type="Self.TBURUNLER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBKATEGORILER">
+              <PropertyRef Name="KATEGORIID" />
+            </Principal>
+            <Dependent Role="TBURUNLER">
+              <PropertyRef Name="URUNKATEGORI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MvcDbStokModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBKATEGORILER" EntityType="Self.TBKATEGORILER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBMUSTERILER" EntityType="Self.TBMUSTERILER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBSATISLAR" EntityType="Self.TBSATISLAR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBURUNLER" EntityType="Self.TBURUNLER" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TBSATISLAR_TBMUSTERILER" Association="Self.FK_TBSATISLAR_TBMUSTERILER">
+            <End Role="TBMUSTERILER" EntitySet="TBMUSTERILER" />
+            <End Role="TBSATISLAR" EntitySet="TBSATISLAR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBSATISLAR_TBURUNLER" Association="Self.FK_TBSATISLAR_TBURUNLER">
+            <End Role="TBURUNLER" EntitySet="TBURUNLER" />
+            <End Role="TBSATISLAR" EntitySet="TBSATISLAR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBURUNLER_TBKATEGORILER" Association="Self.FK_TBURUNLER_TBKATEGORILER">
+            <End Role="TBKATEGORILER" EntitySet="TBKATEGORILER" />
+            <End Role="TBURUNLER" EntitySet="TBURUNLER" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MvcDbStokModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TBKATEGORILER">
+          <Key>
+            <PropertyRef Name="KATEGORIID" />
+          </Key>
+          <Property Name="KATEGORIID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KATEGORIAD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TBURUNLER" Relationship="Self.FK_TBURUNLER_TBKATEGORILER" FromRole="TBKATEGORILER" ToRole="TBURUNLER" />
+        </EntityType>
+        <EntityType Name="TBMUSTERILER">
+          <Key>
+            <PropertyRef Name="MUSTERIID" />
+          </Key>
+          <Property Name="MUSTERIID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MUSTERIAD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MUSTERISOYAD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TBSATISLAR" Relationship="Self.FK_TBSATISLAR_TBMUSTERILER" FromRole="TBMUSTERILER" ToRole="TBSATISLAR" />
+        </EntityType>
+        <EntityType Name="TBSATISLAR">
+          <Key>
+            <PropertyRef Name="SATISID" />
+          </Key>
+          <Property Name="SATISID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="URUN" Type="Int32" />
+          <Property Name="MUSTERI" Type="Int32" />
+          <Property Name="ADET" Type="Byte" />
+          <Property Name="FIYAT" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="TBMUSTERILER" Relationship="Self.FK_TBSATISLAR_TBMUSTERILER" FromRole="TBSATISLAR" ToRole="TBMUSTERILER" />
+          <NavigationProperty Name="TBURUNLER" Relationship="Self.FK_TBSATISLAR_TBURUNLER" FromRole="TBSATISLAR" ToRole="TBURUNLER" />
+        </EntityType>
+        <EntityType Name="TBURUNLER">
+          <Key>
+            <PropertyRef Name="URUNID" />
+          </Key>
+          <Property Name="URUNID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="URUNAD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="URUNKATEGORI" Type="Int16" />
+          <Property Name="FIYAT" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MARKA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="STOK" Type="Byte" />
+          <NavigationProperty Name="TBKATEGORILER" Relationship="Self.FK_TBURUNLER_TBKATEGORILER" FromRole="TBURUNLER" ToRole="TBKATEGORILER" />
+          <NavigationProperty Name="TBSATISLAR" Relationship="Self.FK_TBSATISLAR_TBURUNLER" FromRole="TBURUNLER" ToRole="TBSATISLAR" />
+        </EntityType>
+        <Association Name="FK_TBURUNLER_TBKATEGORILER">
+          <End Role="TBKATEGORILER" Type="Self.TBKATEGORILER" Multiplicity="0..1" />
+          <End Role="TBURUNLER" Type="Self.TBURUNLER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBKATEGORILER">
+              <PropertyRef Name="KATEGORIID" />
+            </Principal>
+            <Dependent Role="TBURUNLER">
+              <PropertyRef Name="URUNKATEGORI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBSATISLAR_TBMUSTERILER">
+          <End Role="TBMUSTERILER" Type="Self.TBMUSTERILER" Multiplicity="0..1" />
+          <End Role="TBSATISLAR" Type="Self.TBSATISLAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBMUSTERILER">
+              <PropertyRef Name="MUSTERIID" />
+            </Principal>
+            <Dependent Role="TBSATISLAR">
+              <PropertyRef Name="MUSTERI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBSATISLAR_TBURUNLER">
+          <End Role="TBURUNLER" Type="Self.TBURUNLER" Multiplicity="0..1" />
+          <End Role="TBSATISLAR" Type="Self.TBSATISLAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBURUNLER">
+              <PropertyRef Name="URUNID" />
+            </Principal>
+            <Dependent Role="TBSATISLAR">
+              <PropertyRef Name="URUN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MvcDbStokEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="TBKATEGORILER" EntityType="Self.TBKATEGORILER" />
+          <EntitySet Name="TBMUSTERILER" EntityType="Self.TBMUSTERILER" />
+          <EntitySet Name="TBSATISLAR" EntityType="Self.TBSATISLAR" />
+          <EntitySet Name="TBURUNLER" EntityType="Self.TBURUNLER" />
+          <AssociationSet Name="FK_TBURUNLER_TBKATEGORILER" Association="Self.FK_TBURUNLER_TBKATEGORILER">
+            <End Role="TBKATEGORILER" EntitySet="TBKATEGORILER" />
+            <End Role="TBURUNLER" EntitySet="TBURUNLER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBSATISLAR_TBMUSTERILER" Association="Self.FK_TBSATISLAR_TBMUSTERILER">
+            <End Role="TBMUSTERILER" EntitySet="TBMUSTERILER" />
+            <End Role="TBSATISLAR" EntitySet="TBSATISLAR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBSATISLAR_TBURUNLER" Association="Self.FK_TBSATISLAR_TBURUNLER">
+            <End Role="TBURUNLER" EntitySet="TBURUNLER" />
+            <End Role="TBSATISLAR" EntitySet="TBSATISLAR" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MvcDbStokModelStoreContainer" CdmEntityContainer="MvcDbStokEntities1">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MvcDbStokModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBKATEGORILER">
+            <EntityTypeMapping TypeName="MvcDbStokModel.TBKATEGORILER">
+              <MappingFragment StoreEntitySet="TBKATEGORILER">
+                <ScalarProperty Name="KATEGORIID" ColumnName="KATEGORIID" />
+                <ScalarProperty Name="KATEGORIAD" ColumnName="KATEGORIAD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBMUSTERILER">
+            <EntityTypeMapping TypeName="MvcDbStokModel.TBMUSTERILER">
+              <MappingFragment StoreEntitySet="TBMUSTERILER">
+                <ScalarProperty Name="MUSTERIID" ColumnName="MUSTERIID" />
+                <ScalarProperty Name="MUSTERIAD" ColumnName="MUSTERIAD" />
+                <ScalarProperty Name="MUSTERISOYAD" ColumnName="MUSTERISOYAD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBSATISLAR">
+            <EntityTypeMapping TypeName="MvcDbStokModel.TBSATISLAR">
+              <MappingFragment StoreEntitySet="TBSATISLAR">
+                <ScalarProperty Name="SATISID" ColumnName="SATISID" />
+                <ScalarProperty Name="URUN" ColumnName="URUN" />
+                <ScalarProperty Name="MUSTERI" ColumnName="MUSTERI" />
+                <ScalarProperty Name="ADET" ColumnName="ADET" />
+                <ScalarProperty Name="FIYAT" ColumnName="FIYAT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBURUNLER">
+            <EntityTypeMapping TypeName="MvcDbStokModel.TBURUNLER">
+              <MappingFragment StoreEntitySet="TBURUNLER">
+                <ScalarProperty Name="URUNID" ColumnName="URUNID" />
+                <ScalarProperty Name="URUNAD" ColumnName="URUNAD" />
+                <ScalarProperty Name="URUNKATEGORI" ColumnName="URUNKATEGORI" />
+                <ScalarProperty Name="FIYAT" ColumnName="FIYAT" />
+                <ScalarProperty Name="MARKA" ColumnName="MARKA" />
+                <ScalarProperty Name="STOK" ColumnName="STOK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MvcDbStokModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TBKATEGORILER">
+    <Key>
+      <PropertyRef Name="KATEGORIID" />
+    </Key>
+    <Property Name="KATEGORIID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="KATEGORIAD" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="TBMUSTERILER">
+    <Key>
+      <PropertyRef Name="MUSTERIID" />
+    </Key>
+    <Property Name="MUSTERIID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MUSTERIAD" Type="varchar" MaxLength="50" />
+    <Property Name="MUSTERISOYAD" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="TBSATISLAR">
+    <Key>
+      <PropertyRef Name="SATISID" />
+    </Key>
+    <Property Name="SATISID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="URUN" Type="int" />
+    <Property Name="MUSTERI" Type="int" />
+    <Property Name="ADET" Type="tinyint" />
+    <Property Name="FIYAT" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="TBURUNLER">
+    <Key>
+      <PropertyRef Name="URUNID" />
+    </Key>
+    <Property Name="URUNID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="URUNAD" Type="varchar" MaxLength="50" />
+    <Property Name="URUNKATEGORI" Type="smallint" />
+    <Property Name="FIYAT" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="MARKA" Type="varchar" MaxLength="50" />
+    <Property Name="STOK" Type="tinyint" />
+  </EntityType>
+  <Association Name="FK_TBSATISLAR_TBMUSTERILER">
+    <End Role="TBMUSTERILER" Type="Self.TBMUSTERILER" Multiplicity="0..1" />
+    <End Role="TBSATISLAR" Type="Self.TBSATISLAR" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBMUSTERILER">
+        <PropertyRef Name="MUSTERIID" />
+      </Principal>
+      <Dependent Role="TBSATISLAR">
+        <PropertyRef Name="MUSTERI" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBSATISLAR_TBURUNLER">
+    <End Role="TBURUNLER" Type="Self.TBURUNLER" Multiplicity="0..1" />
+    <End Role="TBSATISLAR" Type="Self.TBSATISLAR" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBURUNLER">
+        <PropertyRef Name="URUNID" />
+      </Principal>
+      <Dependent Role="TBSATISLAR">
+        <PropertyRef Name="URUN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBURUNLER_TBKATEGORILER">
+    <End Role="TBKATEGORILER" Type="Self.TBKATEGORILER" Multiplicity="0..1" />
+    <End Role="TBURUNLER" Type="Self.TBURUNLER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBKATEGORILER">
+        <PropertyRef Name="KATEGORIID" />
+      </Principal>
+      <Dependent Role="TBURUNLER">
+        <PropertyRef Name="URUNKATEGORI" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MvcDbStokModelStoreContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBKATEGORILER" EntityType="Self.TBKATEGORILER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBMUSTERILER" EntityType="Self.TBMUSTERILER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBSATISLAR" EntityType="Self.TBSATISLAR" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBURUNLER" EntityType="Self.TBURUNLER" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_TBSATISLAR_TBMUSTERILER" Association="Self.FK_TBSATISLAR_TBMUSTERILER">
+      <End Role="TBMUSTERILER" EntitySet="TBMUSTERILER" />
+      <End Role="TBSATISLAR" EntitySet="TBSATISLAR" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBSATISLAR_TBURUNLER" Association="Self.FK_TBSATISLAR_TBURUNLER">
+      <End Role="TBURUNLER" EntitySet="TBURUNLER" />
+      <End Role="TBSATISLAR" EntitySet="TBSATISLAR" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBURUNLER_TBKATEGORILER" Association="Self.FK_TBURUNLER_TBKATEGORILER">
+      <End Role="TBKATEGORILER" EntitySet="TBKATEGORILER" />
+      <End Role="TBURUNLER" EntitySet="TBURUNLER" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
